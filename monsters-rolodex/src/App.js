@@ -1,6 +1,7 @@
 import './App.css';
-import { Component } from 'react';
+import React, { Component } from 'react';
 
+import { CardList } from './components/card-list/card-list.component'
 
 class App extends Component {
 
@@ -8,31 +9,31 @@ constructor() {
   super();
 
   this.state = {
-    monsters:[
-      {
-        name: 'Frankenstein',
-        id:'asc1'
-      },
-      {
-        name: 'Dracula',
-        id: 'asr2'
-      },
-      {
-        name: 'Zombie',
-        id:'as1w'
-      }
-  ]
+    monsters:[]
   
 }
 };
 
+
+componentDidMount() {
+  const getUsers = new Promise((resolve, reject) => {
+      fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(users => this.setState({monsters: users})) 
+      .catch(error => console.log("error returning data"));
+  });
+  
+  getUsers
+  .catch(error => console.log("error returning data"));
+  
+}
+
 render() {
+
+
   return (
     <div className="App">
-      {
-        this.state.monsters.map(monster => 
-        <h1 key={monster.id}>{ monster.name + " is a monster."}</h1>)
-      }
+    <CardList monsters={this.state.monsters}></CardList>
     </div>
   );
 
